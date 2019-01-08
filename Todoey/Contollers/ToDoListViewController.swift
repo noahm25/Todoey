@@ -1,7 +1,7 @@
 
 import UIKit
 
-class ToDoListViewController: UITableViewController {
+class ToDoListViewController: UITableViewController{
     
     var itemArray = [Item]()
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
@@ -23,9 +23,7 @@ class ToDoListViewController: UITableViewController {
         newItem3.title = "Destroy Demorgon"
         itemArray.append(newItem3)
         
- //      if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {
- //       itemArray = items
- //       }
+        loadItems()
         
     }
     
@@ -77,12 +75,11 @@ class ToDoListViewController: UITableViewController {
             
             self.itemArray.append(newItem)
             
-         self.saveItems()
-            
+            self.saveItems()
         }
         
         alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Creat new item"
+            alertTextField.placeholder = "Create new item"
             textField = alertTextField
             
         }
@@ -92,21 +89,31 @@ class ToDoListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
         
     }
-    
-}
 
-    func saveItems() {
+func saveItems() {
 
         let encoder = PropertyListEncoder()
-        
-        do {
-            
+        do{
             let data = try encoder.encode(itemArray)
             try data.write(to: dataFilePath!)
         } catch {
-            print("Error encoding item array, \(error)")
+            print("error encoding Item Array, \(error)")
         }
-        
         self.tableView.reloadData()
+    
     }
 
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+            itemArray = try decoder.decode([Item].self, from: data)
+                
+            } catch {
+                print("Error decoding item array, \(error)")
+            }
+        }
+    }
+
+
+}
