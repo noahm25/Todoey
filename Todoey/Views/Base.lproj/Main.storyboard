@@ -35,7 +35,7 @@
                     <navigationItem key="navigationItem" title="Todoey" id="G3z-Tj-4lx">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Fya-AN-PR7">
                             <connections>
-                                <action selector="addButtonitem:" destination="2mK-PB-OVr" id="F2J-fl-FNo"/>
+                                <action selector="addItemButton:" destination="2mK-PB-OVr" id="4FN-m4-N6W"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

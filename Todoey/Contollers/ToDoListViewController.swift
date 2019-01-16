@@ -1,7 +1,7 @@
 import UIKit
 import CoreData
 
-class TododListViewController: UITableViewController {
+class ToDoListViewController: UITableViewController {
     
     var itemArray = [Item]()
 
@@ -14,6 +14,8 @@ class TododListViewController: UITableViewController {
         
         
              loadItems()
+        
+        print("Item Tableview Loaded")
     }
     // Do any additional setup after loading the view, typically from a nib.
     
@@ -23,7 +25,7 @@ class TododListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt IndexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: IndexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: IndexPath)
         
         let item = itemArray[IndexPath.row]
         
@@ -60,44 +62,49 @@ class TododListViewController: UITableViewController {
     
     
     
-    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction func addItemButton(_ sender: UIBarButtonItem) {
+        print("Add Item Button Pressed")
         
-        var textField = UITextField()
+                var textField = UITextField()
         
-        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            
-            
-            let newItem = Item(context: self.context)
-            newItem.title = textField.text!
-            newItem.done = false
-            
-            self.itemArray.append(newItem)
-            
-            self.saveItems()
-            
-            //            let encoder = PropertyListEncoder()
-            //             do{
-            //                let data = try encoder.encode(self.itemArray)
-            //                try data.write(to: self.dataFilePath!)
-            //            } catch {
-            //              print("error encoding Item Array, \(error)")
-            //            }
-            //            self.tableView.reloadData()
-            
-        }
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Creat New Item"
-            textField = alertTextField
-            
-        }
+                let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
         
         
-        alert.addAction(action)
+                    let newItem = Item(context: self.context)
+                    newItem.title = textField.text!
+                    newItem.done = false
         
-        present(alert, animated: true, completion: nil)
+                    self.itemArray.append(newItem)
+        
+                    self.saveItems()
+        
+                    //            let encoder = PropertyListEncoder()
+                    //             do{
+                    //                let data = try encoder.encode(self.itemArray)
+                    //                try data.write(to: self.dataFilePath!)
+                    //            } catch {
+                    //              print("error encoding Item Array, \(error)")
+                    //            }
+                    //            self.tableView.reloadData()
+        
+                }
+                alert.addTextField { (alertTextField) in
+                    alertTextField.placeholder = "Create New Item"
+                    textField = alertTextField
+        
+                }
+        
+        
+                alert.addAction(action)
+        
+                present(alert, animated: true, completion: nil)
+        
     }
+    
+        
+
     
     
     
