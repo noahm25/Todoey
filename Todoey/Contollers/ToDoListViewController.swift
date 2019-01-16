@@ -1,107 +1,134 @@
-
 import UIKit
+import CoreData
 
-class ToDoListViewController: UITableViewController{
+class TododListViewController: UITableViewController {
     
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(dataFilePath)
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        loadItems()
         
+             loadItems()
     }
+    // Do any additional setup after loading the view, typically from a nib.
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection: Int) -> Int {
         return itemArray.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt IndexPath: IndexPath) -> UITableViewCell {
         
-        let cell =  tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: IndexPath)
         
-        let item = itemArray[indexPath.row]
+        let item = itemArray[IndexPath.row]
         
         cell.textLabel?.text = item.title
-        
         //Ternary operator ==>
-        // value = condition ? valueTrue : valueIfFalse
+        //va
         
-        cell.accessoryType = item.done ? .checkmark : .none
+        cell.accessoryType = item.done == true ? .checkmark : .none
         
         return cell
     }
     
-    //MARK - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       //print(itemArray[indexPath.row])
+        // print(itemArray[indexPath.row])
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-        saveItems()
-    
+        tableView.reloadData()
+        
+        
+        // tableView.deselectRow(at: IndexPath, animated: true)
+        
+        
+        
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        } else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    //MARK - add new item
     
-    @IBAction func addButtonitem(_ sender: UIBarButtonItem) {
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            //what willhappen once the user clicks the Add Item button on our UIAlert
             
-            let newItem = Item()
+            
+            let newItem = Item(context: self.context)
             newItem.title = textField.text!
+            newItem.done = false
             
             self.itemArray.append(newItem)
             
             self.saveItems()
+            
+            //            let encoder = PropertyListEncoder()
+            //             do{
+            //                let data = try encoder.encode(self.itemArray)
+            //                try data.write(to: self.dataFilePath!)
+            //            } catch {
+            //              print("error encoding Item Array, \(error)")
+            //            }
+            //            self.tableView.reloadData()
+            
         }
-        
         alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Create new item"
+            alertTextField.placeholder = "Creat New Item"
             textField = alertTextField
             
         }
         
+        
         alert.addAction(action)
         
         present(alert, animated: true, completion: nil)
-        
     }
-
-func saveItems() {
-
+    
+    
+    
+    
+    
+    
+    func saveItems() {
+        
         let encoder = PropertyListEncoder()
         do{
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            
+            try context.save()
         } catch {
-            print("error encoding Item Array, \(error)")
+            print("error saving context\(error)")
         }
         self.tableView.reloadData()
-    
+        
     }
-
-    func loadItems() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
+        func loadItems() {
+            let request : NSFetchRequest<Item> = Item.fetchRequest()
             do {
-            itemArray = try decoder.decode([Item].self, from: data)
-                
+           itemArray = try context.fetch(request)
             } catch {
-                print("Error decoding item array, \(error)")
-            }
+                print("Error fetching data from context \(error)")
         }
     }
-
-
+    
+    
+    
+    
+    
+    
 }
+
