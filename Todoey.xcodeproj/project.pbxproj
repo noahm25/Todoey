@@ -13,6 +13,7 @@
 		311DAE2E21C999A8002E3A29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 311DAE2D21C999A8002E3A29 /* Assets.xcassets */; };
 		311DAE3121C999A8002E3A29 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 311DAE2F21C999A8002E3A29 /* LaunchScreen.storyboard */; };
 		31203A5021E5585300889772 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31203A4E21E5585300889772 /* DataModel.xcdatamodeld */; };
+		3132FEF621F266F90084043B /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3132FEF521F266F90084043B /* CategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		311DAE3021C999A8002E3A29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		311DAE3221C999A8002E3A29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		31203A4F21E5585300889772 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		3132FEF521F266F90084043B /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		3188B65321CC4135002936D5 /* Contollers */ = {
 			isa = PBXGroup;
 			children = (
+				3132FEF521F266F90084043B /* CategoryViewController.swift */,
 				311DAE2821C999A7002E3A29 /* ToDoListViewController.swift */,
 			);
 			path = Contollers;
@@ -170,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3132FEF621F266F90084043B /* CategoryViewController.swift in Sources */,
 				311DAE2921C999A7002E3A29 /* ToDoListViewController.swift in Sources */,
 				31203A5021E5585300889772 /* DataModel.xcdatamodeld in Sources */,
 				311DAE2721C999A7002E3A29 /* AppDelegate.swift in Sources */,
